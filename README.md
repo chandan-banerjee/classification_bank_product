@@ -1,22 +1,27 @@
-# Requirement : Identify the key features that affects used car price. Develop a model to predict used car price using the key features. 
-#               This will help the car dealer stress on these features that will  effectively meet customers' decision to chose an used car.
+# Requirement   : Dataset is from a Tele-marketting campaign of a Portuguese banking institution for their different TERM deposite products.
+#               : The goal is --> To predict if a client wil subscribe to their product. 
 
 # ***GIT HUB REPO link***
 
 Please use the following link to access my repository
-https://github.com/chandan-banerjee/used_car_price_model/tree/main
+
 
 
 # **Key observations/ Summary**
 
 # **Phase EDA (Exploratory Data Analysis) & Feature Engg:**
-    1. Dropped VIN & ID columns which has no relation to used car price. This reduced noise in dataset.
-    2. Handled missing values appropruately using MODE  within same car and model family as appropriate
-    3. Added a new column representing car-AGE. The model uses currrent date to calculate AGE. This gives DYNAMIC behavior & can be used in future years without any code change
-    4. For missing odometer values uesed MODE within same car and model fsmily. If still missing value then filled in assuming average milage users drive each year(~normally ~12000 miles/yr) * AGE of the vehicle.
-    5. Found data skewed in few key columns(like PRICE/ ODOMETER etc ) . Tranformed car PRICE to logarithmatic scale for better results
-    6. Did PCA analysis to see main contributing features in current dataset
-    7. For analysis used subset of data to reduce runtime
+    1. Call Duration has minimal impact on predictive modeling. Didn't consider this attribute and removed rows where 'duration' is ZERO and target is 'no'. 
+    2. Used OrdinalEncoder for better correlation heatmap visualization. OneHotEncoder creates too many features which makes the heatmap unreadable. OrdinalEncoder creates less features which makes the heatmap more readable.
+    3. Compared between bank-additional-full.csv and bank-additional.csv dataset to identify class imbalance, if any. Result indicates both have similar class imbalance. Used the full dataset as I need to evaluate models' performance. 
+                        proportion
+                    y	
+                    no	0.887346
+                    yes	0.112654
+    4. Renamed few features  like ('cons.price.idx' to 'consumer_price_index') for better understanding and readability
+    5. Segrigated numerical & categorical features for scaling and categorical data in numeric format
+    6. Check the number of unique values in each categorical feature. This will helped me to understand the cardinality of the categorical features and to decide which encoding technique to use for each categorical feature.
+    7. Ccurrent dataset does not have null values and each feature has its own significance/ contribution. Hence no need to additional dereived column for this usecase  modelling.
+    8. As the target variable is binary in nature, we will use LabelEncoding for the target variable.
 
 # **Phase Modelling**
 
