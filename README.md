@@ -27,6 +27,7 @@ https://github.com/chandan-banerjee/classification_bank_product/tree/main
 
     1. Used pipeline,column transformer, Target transformer & gridsearchCV to review performance and key hyper parameter values
     2. GridSearch indicates decisiontreeclassifier has better test score and performing (fit time )well 
+
         	                        train score	test score	average fit time
             model			
             KNN	                    0.925183	0.884788	15.790351
@@ -40,17 +41,24 @@ https://github.com/chandan-banerjee/classification_bank_product/tree/main
             1	logisticregression	    0.218750
             2	svc	                    0.201509
             3	decisiontreeclassifier	0.250000
-    3.  GridSearch indicates best model is  {'decisiontreeclassifier__max_depth': 5} and max_depth =5. This indicates no overfitting. Still there is room to evaluate how we can improve recall score.
+    3.  GridSearch indicates best model is  {'decisiontreeclassifier__max_depth': 5} and max_depth =5. This indicates no overfitting. Still there is room to evaluate how we can improve recall score. Verifed these & details are in the next section
+
+    4. Although gridsearchCV indicates decisiontree as best estimater KNN is also showing comparable scores but doing badly w.r.t performance when comared with DecisionTree. SVC 
+
 # **Phase Evaluation**
 
     1. Recall score is important for Bank Telemarketting campaign because the goal is to find every potential customer willing to buy a term deposit.
-    2. Adjusting the threshold from 0.5, the default value, to 0.26 improves the recall score from 0.25 to 0.55 for decision tree classifier
+    2. Hence adjusting the threshold from 0.5, the default value, to 0.26 improved the recall score from 0.25 to 0.55 for decision tree classifier
 
         Optimal F1-score threshold: 0.2626
         Recall at optimal F1-score threshold: 0.5517
         Precision at optimal F1-score threshold: 0.4881
 
-    3. As I see class imbalance, tried Synthetic Minority Over-sampling Technique (SMOTE). This helps in balancing the dataset and can lead to improved model performance, especially in terms of recall for the minority class.
+    3. Although gridsearchCV indicates decisiontree as best estimater, KNN is also showing comparable scores but doing badly w.r.t performance when compared with DecisionTree. SVC (worst in terms of performance) & logisticregression (is not good to handle classimbalance). So examined DecisionTree & KNN to see if KNN is anyway produces better recall socre.       
+
+    3. Precision,Recall, F1 score plots at differnt thresholds for DecisionTree and KNN gives clear idea how threshold affects the different metrics and what will be optimal threshold.        
+
+    4. As I see class imbalance, tried Synthetic Minority Over-sampling Technique (SMOTE). This helps in balancing the dataset and can lead to improved model performance, especially in terms of recall for the minority class.
 
                         --- Results with SMOTE ---
                                             train score	test score	fit time
@@ -66,11 +74,14 @@ https://github.com/chandan-banerjee/classification_bank_product/tree/main
                     1	logisticregression	        0.657328
                     2	svc	                        0.619612
                     3	decisiontreeclassifier	    0.554957
+    5. The recall score with SMOTE is similar to what I got by lowering the threshold to 0.2626.                     
 
 # **Conclusion/NxtStep/Recommendation**
 
-    1.  
-    2. Further scope will be do more feature engineering as dataset has lot of data variation
-    3. For now checked with few hyperparameter. There is scope to tune parameters for better performance , regularization and improved scores
+    1. DecisionTree classifier with max_depth=5  wins the race in all respects , in terms of performance and recall score at 0.2626 threshold. 
+    2. The result shows similar recall score with no additional benefit. So will stick to the threshhold approach to get better metrics.
+    3. Further scope will be see if any other clasification model can improve the overall performance & recall score above 0.55.
+    4. Test with unknown synthetic data 
+    5. Gridsearch with different classification scoring methods. 
 
 
