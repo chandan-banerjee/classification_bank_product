@@ -1,5 +1,5 @@
 # Requirement   : Dataset is from a Tele-marketting campaign of a Portuguese banking institution for their different TERM deposite products.
-#               : The goal is --> To predict if a client wil subscribe to their product. 
+#               The goal is --> To predict if a client will subscribe to their product. 
 
 # ***GIT HUB REPO link***
 
@@ -18,42 +18,58 @@ Please use the following link to access my repository
                     no	0.887346
                     yes	0.112654
     4. Renamed few features  like ('cons.price.idx' to 'consumer_price_index') for better understanding and readability
-    5. Segrigated numerical & categorical features for scaling and categorical data in numeric format
-    6. Check the number of unique values in each categorical feature. This will helped me to understand the cardinality of the categorical features and to decide which encoding technique to use for each categorical feature.
-    7. Ccurrent dataset does not have null values and each feature has its own significance/ contribution. Hence no need to additional dereived column for this usecase  modelling.
-    8. As the target variable is binary in nature, we will use LabelEncoding for the target variable.
+    5. Segrigated numerical & categorical features. Used standar scaling for numerical feature. 
+    6. Check the number of unique values in each categorical feature. This will helped me to understand the cardinality of the categorical features and to decide which encoding technique to use for each categorical feature. Used OncHotEncoder for categorical feature.
+    7. Current dataset does not have null/missing values and each feature has its own significance/ contribution. Hence no need to create additional dereived column for this UseCase.
+    8. As the target variable is binary in nature, used LabelEncoding for the target variable transformation.
 
 # **Phase Modelling**
 
-    1. Used pipeline,column transformer & gridsearchCV to review performance and key hyper parameter values
-    2.  Option 1:column selector = PCA. Used n_components=0.9 allowing model to decide the columns to generate 90% of the variance. Bcoz the PCA graph shows more feature needed to reach ~80% cut off value. 
-            Best model : Ridge
-            cross-validation R^2 score:  0.05499808231558767
-            Mean Squared Error with PCA Feature Selection on training set:  30884010930336.04
-            Mean Squared Error with PCA Feature Selection on test set:  325986526.57310754
-       
-        Option 2: colun selector = Polynomial degree 2
-            Best model : Lasso
-            Best cross-validation R^2 score for polynomial regression:  0.08375309252930645
-            Mean Squared Error on training set for polynomial regression:  30883976278358.79
-            Mean Squared Error on test set for polynomial regression:  318770548.042995 
-        
-        Option 3: column selector = Sequential feature selector, n_comonents = 5
-            Best model : Ridge
-            Best cross-validation R^2 score for sequential regression:  0.05014992530816287
-            Mean Squared Error on training set for sequential regression:  30883944114726.297
-            Mean Squared Error on test set for sequential regression:  332517267.61842513
-    3.  Based on above facts Polynomial with degree 2 is best model as it gives best MSE and R^2 score is good. 
+    1. Used pipeline,column transformer, Target transformer & gridsearchCV to review performance and key hyper parameter values
+    2. GridSearch indicates decisiontreeclassifier has better test score and performing (fit time )well 
+        	                        train score	test score	average fit time
+            model			
+            KNN	                    0.925183	0.884788	15.790351
+            logisticregression	    0.900416	0.899964	0.607916
+            svc	                    0.897715	0.896686	498.780488
+            decisiontreeclassifier	0.902935	0.900571	0.603124
+    3. Recall score
 
+                model	                recall_score
+            0	KNN	                    0.303879
+            1	logisticregression	    0.218750
+            2	svc	                    0.201509
+            3	decisiontreeclassifier	0.250000
+    3.  GridSearch indicates best model is  {'decisiontreeclassifier__max_depth': 5} and max_depth =5. This indicates no overfitting. Still there is room to evaluate how we can improve recall score.
 # **Phase Evaluation**
 
-    1. Mocked up data from the original dataset that was given to me for analysis
-    2. Used 3 cars data as to mimic a scenario where model never had seen the data before
-    3. Used 3 models to predic prices and found polynoial feature selection using Lasso is predicting better. Details are in EVALUATION section of the notebook
+    1. Recall score is important for Bank Telemarketting campaign because the goal is to find every potential customer willing to buy a term deposit.
+    2. Adjusting the threshold from 0.5, the default value, to 0.26 improves the recall score from 0.25 to 0.55 for decision tree classifier
+
+        Optimal F1-score threshold: 0.2626
+        Recall at optimal F1-score threshold: 0.5517
+        Precision at optimal F1-score threshold: 0.4881
+
+    3. As I see class imbalance, tried Synthetic Minority Over-sampling Technique (SMOTE). This helps in balancing the dataset and can lead to improved model performance, especially in terms of recall for the minority class.
+
+                        --- Results with SMOTE ---
+                                            train score	test score	fit time
+                    model			
+                    KNN	                    0.901478	0.784388	100.901024
+                    logisticregression	    0.820894	0.828457	5.884878
+                    svc	                    0.834826	0.838533	3233.937716
+                    decisiontreeclassifier	0.876832	0.881874	9.267540
+
+                    --- Recall scores with SMOTE ---
+                    model	                    recall_score
+                    0	KNN	                        0.574353
+                    1	logisticregression	        0.657328
+                    2	svc	                        0.619612
+                    3	decisiontreeclassifier	    0.554957
 
 # **Conclusion/NxtStep/Recommendation**
 
-    1.  These are NOT the best models. I would say its average. The current state is much better than what I started with. The R^2 score has imporved a lot from negative to greter than ZERO.
+    1.  
     2. Further scope will be do more feature engineering as dataset has lot of data variation
     3. For now checked with few hyperparameter. There is scope to tune parameters for better performance , regularization and improved scores
 
