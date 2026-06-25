@@ -3,10 +3,9 @@
 
 # ***GIT HUB REPO link***
 
-
 Please use the following link to access my repository
 
-
+https://github.com/chandan-banerjee/classification_bank_product/tree/main
 
 # **Key observations/ Summary**
 
