@@ -3,9 +3,9 @@
 
 # ***GIT HUB REPO link***
 
-Please use the following link to access my repository
+Please use the following link to access my notebook
 
-https://github.com/chandan-banerjee/classification_bank_product/tree/main
+https://github.com/chandan-banerjee/classification_bank_product/blob/main/prompt_III.ipynb
 
 # **Key observations/ Summary**
 
